@@ -1,0 +1,138 @@
+============================================================
+Step 1: Loading raw dataset ...
+============================================================
+Raw records: 41,170
+
+Step 2: Loading profile_data.json ...
+
+  Thresholds (from profile_data.json):
+    response_tok_min          = 1200
+    response_tok_max          = 4100
+    reasoning_tok_min         = 800
+    reasoning_tok_max         = None (no upper limit)
+    total_tok_max             = 8162
+  Template overhead: 30 tokens
+  Records with total+template > 8192: 0 (0.0%)
+
+  Near-dup indices from 01:
+    minhash_prompt   (n=4, Jac≥0.4): 14,001
+    minhash_resp     (n=6, Jac≥0.4):      2
+    semantic_prompt  (cos≥0.99):         1,894
+    exact_response   (MD5):                         0
+    union            :                         14,342
+
+Step 3: Applying cleaning rules R1~R9 to all records ...
+  filtering: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 41170/41170 [00:00<00:00, 234095.35it/s]
+
+  Raw:     41,170
+  Cleaned: 26,272  (63.8%)
+  Dropped: 14,898  (36.2%)
+
+  Drop breakdown by rule:
+  Rule                                                          Count     %raw
+  ------------------------------------------------------------------------------
+  R8   prompt < 20 chars                                            1  (0.00%)
+  R1   response tok < min                                         168  (0.41%)
+  R2   response tok > max                                         507  (1.23%)
+  R3   no HTML structure                                           18  (0.04%)
+  R4   reasoning tok < min (no upper limit)                       107  (0.26%)
+  R5   exact dup prompt (MD5)                                       0  (0.00%)
+  R6+R7 near-dup (MinHash+Semantic)                            14,097  (34.24%)
+  R9   total+template > 8192                                        0  (0.00%)
+
+Step 4: Splitting val_shared from cleaned data (VAL_SIZE=1000) ...
+  cleaned_all:  26,272
+  val_shared:   1,000  ← 来自清洗后数据，Clean/Raw 完全共用
+  clean_train:  25,272
+
+  val_shared topic distribution:
+  Topic                        Clean    Val   Val%
+  --------------------------------------------------
+  Other                        6,528     91   1.4%
+  Dashboard                    5,398     91   1.7%
+  Mobile UI                    4,013     91   2.3%
+  Admin Panel                  2,916     91   3.1%
+  Form / Auth                  2,612     91   3.5%
+  E-commerce                   1,633     91   5.6%
+  Card / Component             1,004     91   9.1%
+  Navigation                     772     91  11.8%
+  Blog / Article                 738     91  12.3%
+  Landing Page                   547     91  16.6%
+  Portfolio                      111     90  81.1%
+
+Step 5: Building raw train set ...
+  raw_pool  (原始排除val): 40,170
+  raw_train (等量采样):    25,272
+  clean_train:             25,272
+  val_shared (共用):       1,000
+
+Step 6: Saving datasets ...
+  Saved 25,272 records → data/train_clean.jsonl
+  Saved 25,272 records → data/train_raw.jsonl
+  Saved 1,000 records → data/val_shared.jsonl
+
+  File                                    Size  Note
+  --------------------------------------------------------------------
+  data/train_clean.jsonl                25,272  Clean 训练集（清洗后）
+  data/train_raw.jsonl                    25,272  Raw 训练集（未清洗，等量）
+  data/val_shared.jsonl                   1,000  共享验证集（来自清洗后数据）★
+
+  ★ Clean / Raw 两组训练均使用 val_shared 评估，loss 可直接对比。
+    03_train.py 中 val_file 固定指向 data/val_shared.jsonl。
+
+Step 7: Before/After comparison statistics (char-level) ...
+
+                                  Mean     Median        P10        P90
+  --------------------------------------------------------------------
+
+  [Raw   train]
+    prompt               104        101         83        126
+    reasoning           6334       6297       5434       7298
+    response            9160       9026       6598      11865
+
+  [Clean train]
+    prompt               106        104         84        130
+    reasoning           6359       6322       5458       7312
+    response            9306       9183       6895      11901
+
+  [Val  shared]
+    prompt               104        103         83        126
+    reasoning           6369       6297       5461       7377
+    response            9221       9104       6821      11793
+
+Step 8: Generating figures ...
+  Saved: figures/fig5_before_after_comparison.png
+/data/pyzhu/UIGEN_T2_SFT/02_data_cleaning.py:645: UserWarning: Glyph 19981 (\N{CJK UNIFIED IDEOGRAPH-4E0D}) missing from font(s) DejaVu Sans.
+  plt.tight_layout()
+/data/pyzhu/UIGEN_T2_SFT/02_data_cleaning.py:645: UserWarning: Glyph 35774 (\N{CJK UNIFIED IDEOGRAPH-8BBE}) missing from font(s) DejaVu Sans.
+  plt.tight_layout()
+/data/pyzhu/UIGEN_T2_SFT/02_data_cleaning.py:645: UserWarning: Glyph 19978 (\N{CJK UNIFIED IDEOGRAPH-4E0A}) missing from font(s) DejaVu Sans.
+  plt.tight_layout()
+/data/pyzhu/UIGEN_T2_SFT/02_data_cleaning.py:645: UserWarning: Glyph 38480 (\N{CJK UNIFIED IDEOGRAPH-9650}) missing from font(s) DejaVu Sans.
+  plt.tight_layout()
+/data/pyzhu/UIGEN_T2_SFT/02_data_cleaning.py:646: UserWarning: Glyph 19981 (\N{CJK UNIFIED IDEOGRAPH-4E0D}) missing from font(s) DejaVu Sans.
+  plt.savefig("figures/fig6_rule_filter_rates.png", bbox_inches="tight")
+/data/pyzhu/UIGEN_T2_SFT/02_data_cleaning.py:646: UserWarning: Glyph 35774 (\N{CJK UNIFIED IDEOGRAPH-8BBE}) missing from font(s) DejaVu Sans.
+  plt.savefig("figures/fig6_rule_filter_rates.png", bbox_inches="tight")
+/data/pyzhu/UIGEN_T2_SFT/02_data_cleaning.py:646: UserWarning: Glyph 19978 (\N{CJK UNIFIED IDEOGRAPH-4E0A}) missing from font(s) DejaVu Sans.
+  plt.savefig("figures/fig6_rule_filter_rates.png", bbox_inches="tight")
+/data/pyzhu/UIGEN_T2_SFT/02_data_cleaning.py:646: UserWarning: Glyph 38480 (\N{CJK UNIFIED IDEOGRAPH-9650}) missing from font(s) DejaVu Sans.
+  plt.savefig("figures/fig6_rule_filter_rates.png", bbox_inches="tight")
+  Saved: figures/fig6_rule_filter_rates.png
+
+[Done] Data cleaning complete.
+
+  ┌──────────────────────────────────────────────────────────────┐
+  │  File                         Size      Note                 │
+  ├──────────────────────────────────────────────────────────────┤
+  │  data/train_clean.jsonl      25,272    Clean 训练集          │
+  │  data/train_raw.jsonl        25,272    Raw 训练集（等量）    │
+  │  data/val_shared.jsonl        1,000    共享验证集 ★          │
+  └──────────────────────────────────────────────────────────────┘
+
+  ★ val_shared 来自清洗后数据，Clean / Raw 两组完全共用。
+    03_train.py 中 val_file 统一指向 data/val_shared.jsonl。
+
+  Figures:
+    figures/fig5_before_after_comparison.png
+    figures/fig6_rule_filter_rates.png

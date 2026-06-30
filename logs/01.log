@@ -1,0 +1,305 @@
+============================================================
+Step 1: Loading tokenizer ...
+============================================================
+  Tokenizer : /data/pyzhu/models/Qwen/Qwen3-0.6B
+  Vocab size: 151,643
+
+Step 2: Loading dataset ...
+Total records: 41,170
+
+[3] Field completeness check ...
+  prompt      : present=41,170  missing=0  (100.00%)
+  reasoning   : present=41,170  missing=0  (100.00%)
+  response    : present=41,170  missing=0  (100.00%)
+
+[4] Computing character lengths and real token counts ...
+  tokenize [prompt]: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 81/81 [00:00<00:00, 94.93it/s]
+  tokenize [reasoning]: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 81/81 [00:17<00:00,  4.64it/s]
+  tokenize [response]: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 81/81 [00:40<00:00,  2.00it/s]
+
+  ── Character-length statistics ──
+  Field            Mean   Median      Std       P5      P10      P25      P75      P90      P95      P99      Max
+  --------------------------------------------------------------------------------------------------------------
+  prompt            103      101       19       78       83       91      113      126      136      163      283
+  reasoning        6335     6301      740     5208     5435     5826     6806     7292     7596     8199    11277
+  response         9164     9029     2076     5986     6614     7713    10447    11867    12803    14628    22116
+
+  ── Token-length statistics (/data/pyzhu/models/Qwen/Qwen3-0.6B, no template) ──
+  Field            Mean   Median      Std       P5      P10      P25      P75      P90      P95      P99      Max
+  --------------------------------------------------------------------------------------------------------------
+  prompt             18       17        4       12       13       15       20       22       24       28       48
+  reasoning        1141     1134      137      933      973     1047     1228     1318     1376     1489     2070
+  response         2479     2425      621     1561     1735     2045     2850     3284     3573     4188     6554
+
+  ── Total token statistics (prompt+reasoning+response, no template) ──
+  Mean=3637  Median=3590  Std=659  P5=2643  P10=2834  P25=3182  P75=4034  P90=4489  P95=4790  P99=5451  Max=7859
+
+  Records with bare total_tokens > 8162: 0  (0.0%)
+  Records with total+template    > 8192: 0  (0.0%)
+  (template overhead = 30 tokens)
+
+[6] Threshold configuration & expected filter counts ...
+
+  Current THRESHOLDS:
+    response_tok_min          = 1200
+    response_tok_max          = 4100
+    reasoning_tok_min         = 800
+    reasoning_tok_max         = None (no upper limit)
+    total_tok_max             = 8162
+
+  Expected filter counts:
+    response  tok < min                :    168  (0.41%)
+    response  tok > max                :    507  (1.23%)
+    reasoning tok < min                :    108  (0.26%)
+    total+tmpl tok > 8192              :      0  (0.00%)
+    reasoning tok > max                : skipped (no upper limit set)
+
+[7] Prompt topic analysis ...
+  topic classify: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████| 41170/41170 [00:00<00:00, 126401.78it/s]
+
+  Prompt topic distribution:
+    Other                    : 10,783  (26.2%)
+    Dashboard                :  7,576  (18.4%)
+    Mobile UI                :  6,362  (15.5%)
+    Form / Auth              :  4,849  (11.8%)
+    Admin Panel              :  4,308  (10.5%)
+    E-commerce               :  2,713  (6.6%)
+    Card / Component         :  1,448  (3.5%)
+    Navigation               :  1,168  (2.8%)
+    Blog / Article           :    931  (2.3%)
+    Landing Page             :    899  (2.2%)
+    Portfolio                :    133  (0.3%)
+
+[8] Response type analysis ...
+  resp type: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 41170/41170 [00:10<00:00, 4086.28it/s]
+
+  Response feature presence:
+    has_tailwind        : 41,169  (100.0%)
+    has_js              : 41,166  (100.0%)
+    has_body_tag        : 41,148  (99.9%)
+    has_head_tag        : 41,145  (99.9%)
+    has_html_tag        : 41,140  (99.9%)
+    has_css_style       : 39,884  (96.9%)
+    has_canvas          :  5,903  (14.3%)
+    has_svg             :  4,892  (11.9%)
+    has_react           :  1,579  (3.8%)
+    has_bootstrap       :    452  (1.1%)
+    has_vue             :     13  (0.0%)
+
+[9] Reasoning field analysis ...
+  Reasoning present: 41,170 / 41,170 (100.0%)
+  Pearson corr (reasoning_tokens vs response_tokens [as Quality Proxy]): 0.1723
+
+  Reasoning token distribution (non-zero, n=41,170):
+  P5=933  P10=973  P25=1047  P50=1134  P75=1228  P90=1318  P95=1376  P99=1489  Max=2070
+
+[10] Duplicate & near-duplicate detection ...
+
+  [10-A] Exact duplicate detection (MD5) ...
+    Exact dup prompts  : 0 records in 0 groups (0.00%)
+    Exact dup responses: 0 records in 0 groups (0.00%)
+
+  [10-B] Similarity distribution probe ...
+
+    n-gram sensitivity (prompt, 4997 pairs):
+       n       P50       P90       P95       P99     >0.5     >0.7
+    ----------------------------------------------------------
+       2    0.2734    0.3594    0.3906    0.4609     0.5%     0.0%
+       3    0.0859    0.1641    0.1953    0.2734     0.1%     0.0%
+       4    0.0625    0.1250    0.1484    0.2269     0.0%     0.0% ←
+       5    0.0234    0.0781    0.1016    0.1644     0.0%     0.0%
+       6    0.0078    0.0547    0.0781    0.1484     0.0%     0.0%
+       8    0.0000    0.0312    0.0469    0.1094     0.0%     0.0%
+    probe MinHash prompt: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████| 2000/2000 [00:02<00:00, 682.50it/s]
+    probe MinHash response: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████| 2000/2000 [01:06<00:00, 30.00it/s]
+
+    Semantic cosine probe (2000 samples) ...
+Batches: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 8/8 [00:00<00:00,  9.14it/s]
+
+    Cosine distribution (4997 pairs):
+      cosine > 0.70:    65  (1.3%)
+      cosine > 0.75:    41  (0.8%)
+      cosine > 0.80:    27  (0.5%)
+      cosine > 0.85:    15  (0.3%)
+      cosine > 0.90:     4  (0.1%)
+      cosine > 0.95:     1  (0.0%)
+
+    Probe plot data availability:
+      jaccard_prompt_arr :  4,997 pairs  ✓
+      jaccard_resp_arr   :  4,997 pairs  ✓
+      cosine_arr         :  4,997 pairs  ✓
+
+    Saved: figures/fig_similarity_probe_upgraded.png
+
+  [10-C] Full-dataset near-duplicate detection ...
+    MinHash [prompt] n=4: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████| 41170/41170 [00:58<00:00, 703.24it/s]
+    LSH [prompt]: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████| 41170/41170 [00:02<00:00, 19796.82it/s]
+    MinHash [response] n=6: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████| 41170/41170 [21:34<00:00, 31.81it/s]
+    LSH [response]: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████| 41170/41170 [00:02<00:00, 17703.97it/s]
+    Near-dup prompts   (Jac≥0.4): 14,001  (34.01%)
+    Near-dup responses (Jac≥0.4): 2  (0.00%)
+
+    Encoding all 41,170 prompts ...
+Batches: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 161/161 [00:12<00:00, 13.02it/s]
+
+    Building FAISS IndexFlatIP (Exact Brute-force) ...
+    Pairwise cosine search (threshold=0.99) ...
+    collecting semantic dups: 100%|███████████████████████████████████████████████████████████████████████████████████████████████| 41170/41170 [00:00<00:00, 1914810.17it/s]
+    Semantic near-dup (cos≥0.99): 1,894  (4.60%)
+
+    Top 5 similar pairs:
+    0.9984  Design a minimalistic login page with email a  |  Design a minimalistic login page with email a
+    0.9981  Design a minimalistic login screen with email  |  Design a minimalist login screen with email a
+    0.9969  Build a dark mode/light mode toggle interface  |  Develop a dark mode/light mode toggle interfa
+    0.9967  Create a minimalist weather app interface dis  |  Create a minimalist weather app interface sho
+    0.9950  Develop an interactive calendar UI that suppo  |  Create an interactive calendar UI supporting 
+
+  [10-D] Deduplication summary:
+    Exact dup prompt (MD5)                                 :      0  (0.00%)
+    Exact dup response (MD5)                               :      0  (0.00%)
+    MinHash near-dup prompt  (Jac≥0.4)                     : 14,001  (34.01%)
+    MinHash near-dup response(Jac≥0.4)                     :      2  (0.00%)
+    Semantic near-dup (cos≥0.99)                           :  1,894  (4.60%)
+    Union (all methods)                                    : 14,342  (34.84%)
+
+  [10-E] Similarity score distribution (full dataset) ...
+         (每条记录与其他记录的最大相似度分位数分析)
+
+
+    ── MinHash Jaccard – Prompt (n=41,170, field=prompt) ──
+    Stat               Value    Threshold=0.4
+    Mean              0.3286
+    Std               0.1582
+    ----------------------------------------
+    P0.0            0.0000     
+    P1.0            0.0000     
+    P5.0            0.0000     
+    P10.0           0.1094     
+    P25.0           0.2344     
+    P50.0           0.3438     
+    P75.0           0.4375  ***
+    P90.0           0.5156  ***
+    P95.0           0.5625  ***
+    P99.0           0.6719  ***
+    P99.5           0.7188  ***
+    P100.0          0.9531  ***
+
+    超过阈值 0.4 的记录数（阈值敏感性扫描）:
+      ≥ 0.30:  25,096 / 41,170 (60.96%)  ██████████████████████████████
+      ≥ 0.35:  20,170 / 41,170 (48.99%)  ████████████████████████
+      ≥ 0.40:  14,001 / 41,170 (34.01%)  █████████████████ ← current
+      ≥ 0.45:   9,087 / 41,170 (22.07%)  ███████████
+      ≥ 0.50:   5,280 / 41,170 (12.82%)  ██████
+
+    ── MinHash Jaccard – Response (n=41,170, field=response) ──
+    Stat               Value    Threshold=0.4
+    Mean              0.1623
+    Std               0.0666
+    ----------------------------------------
+    P0.0            0.0000     
+    P1.0            0.0000     
+    P5.0            0.0000     
+    P10.0           0.0938     
+    P25.0           0.1328     
+    P50.0           0.1719     
+    P75.0           0.2031     
+    P90.0           0.2344     
+    P95.0           0.2578     
+    P99.0           0.3047     
+    P99.5           0.3203     
+    P100.0          0.4453  ***
+
+    超过阈值 0.4 的记录数（阈值敏感性扫描）:
+      ≥ 0.30:     416 / 41,170 ( 1.01%)  
+      ≥ 0.35:      39 / 41,170 ( 0.09%)  
+      ≥ 0.40:       2 / 41,170 ( 0.00%)   ← current
+      ≥ 0.45:       0 / 41,170 ( 0.00%)  
+      ≥ 0.50:       0 / 41,170 ( 0.00%)  
+
+    ── Semantic Cosine – Prompt (n=41,170, field=prompt) ──
+    Stat               Value    Threshold=0.99
+    Mean              0.9341
+    Std               0.0445
+    ----------------------------------------
+    P0.0            0.5825     
+    P1.0            0.7889     
+    P5.0            0.8490     
+    P10.0           0.8756     
+    P25.0           0.9119     
+    P50.0           0.9433     
+    P75.0           0.9657     
+    P90.0           0.9818      ← ~threshold
+    P95.0           0.9892      ← ~threshold
+    P99.0           0.9970  *** ← ~threshold
+    P99.5           0.9981  *** ← ~threshold
+    P100.0          0.9997  *** ← ~threshold
+
+    超过阈值 0.99 的记录数（阈值敏感性扫描）:
+      ≥ 0.89:  35,224 / 41,170 (85.56%)  ██████████████████████████████████████████
+      ≥ 0.94:  21,964 / 41,170 (53.35%)  ██████████████████████████
+      ≥ 0.99:   1,894 / 41,170 ( 4.60%)  ██ ← current
+      ≥ 1.00:       0 / 41,170 ( 0.00%)  
+
+[11] Low-quality feature identification ...
+  quality flags: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████| 41170/41170 [00:34<00:00, 1180.78it/s]
+
+  Quality flag summary:
+
+  ── Token length
+    response_tok_short               :    168  (0.41%)
+    response_tok_long                :    507  (1.23%)
+    reasoning_tok_short              :    108  (0.26%)
+
+  ── HTML quality
+    no_html_structure                :     20  (0.05%)
+    too_few_html_tags                :      2  (0.00%)
+    unclosed_code_block              :     43  (0.10%)
+
+  ── Reasoning quality
+    reasoning_empty                  :      0  (0.00%)
+    reasoning_repetitive             :      0  (0.00%)
+
+  ── Duplicates
+    exact_dup_prompt                 :      0  (0.00%)
+    exact_dup_response               :      0  (0.00%)
+    minhash_near_dup                 : 14,002  (34.01%)
+    semantic_near_dup                :  1,894  (4.60%)
+
+  ── Sequence length
+    exceed_seq_len                   :      0  (0.00%)
+
+  ── Summary
+    any_issue                        : 14,920  (36.24%)
+
+[12] Generating figures ...
+  Saved: figures/fig1_length_distribution.png
+  Saved: figures/fig1b_total_token_distribution.png
+  Saved: figures/fig2_topic_distribution.png
+  Saved: figures/fig3_quality_indicators.png
+  Saved: figures/fig4_duplicate_analysis.png
+
+  Generating full-dataset similarity distribution figures ...
+  Saved: figures/fig5_fulldata_similarity_distribution.png
+
+[13] Saving profile data ...
+  Saved: data/profile_data.json
+
+[Done] Data profiling complete.
+============================================================
+  THRESHOLDS 说明：
+    response_tok_min  = 1200
+    response_tok_max  = 4100
+    reasoning_tok_min = 800
+    reasoning_tok_max = None  (不设上限)
+    total_tok_max     = 8162  (8192 - 30 模板开销)
+============================================================
+  输出文件：
+    figures/fig1_length_distribution.png
+    figures/fig1b_total_token_distribution.png
+    figures/fig2_topic_distribution.png
+    figures/fig3_quality_indicators.png
+    figures/fig4_duplicate_analysis.png
+    figures/fig5_fulldata_similarity_distribution.png
+    figures/fig_similarity_probe_upgraded.png
+    data/profile_data.json
+============================================================
